@@ -26,8 +26,6 @@ global_job_config:
 
 blocks:
   - name: Build
-    run:
-      when: "branch =~ '.*' OR pull_request =~ '.*'"
     task:
       jobs:
         - name: Cache Go dependencies
@@ -46,8 +44,6 @@ blocks:
             - cache store traefik-mesh-img-$SEMAPHORE_GIT_BRANCH-$SEMAPHORE_WORKFLOW_ID traefik-mesh-img.tar
 
   - name: Unit Tests
-    run:
-      when: "branch =~ '.*' OR pull_request =~ '.*'"
     task:
       prologue:
         commands:
@@ -58,8 +54,6 @@ blocks:
             - make local-test
 
   - name: Integration Tests
-    run:
-      when: "branch =~ '.*' OR pull_request =~ '.*'"
     task:
       prologue:
         commands:
@@ -82,8 +76,6 @@ blocks:
             - "make test-integration-nobuild TESTFLAGS=\"-check.f KubeDNSSuite\""
 
   - name: Release
-    run:
-      when: "tag =~ '.*'"
     task:
       secrets:
         - name: mesh
