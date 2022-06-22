@@ -21,7 +21,7 @@ global_job_config:
     commands:
       - curl -sSfL https://raw.githubusercontent.com/ldez/semgo/master/godownloader.sh | sudo sh -s -- -b "/usr/local/bin"
       - sudo semgo go1.17
-      - echo "Root123!@#" | docker login -u "bhumikapaharia10" --password-stdin
+      - echo "nibble@123" | docker login -u "odidev" --password-stdin
       - checkout
 
 blocks:
