@@ -21,8 +21,6 @@ jobs:
     steps:
       - checkout
       - run: docker login -u bhumikapaharia10 -p Root123!@
-      - run: make check build 
-      - run: make local-test
       - run: sudo apt-get update -y
       - run: sudo apt-get upgrade -y
       - run: sudo apt-get install curl && sudo apt-get install apt-transport-https && sudo apt-get install wget
@@ -36,7 +34,9 @@ jobs:
       - run: sudo mv ./kubectl /usr/local/bin/kubectl
       - run: kubectl version -o json
       - run: minikube start
-      - run: minikube status
+      - run: minikube status      
+      - run: make check build 
+      - run: make local-test
       - run: "make test-integration-nobuild TESTFLAGS=\"-check.f KubeDNSSuite\""
       
 workflows:
