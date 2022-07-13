@@ -1,0 +1,50 @@
+version: 2.1
+
+orbs: 
+  go: circleci/go@1.7.1
+  
+env:
+  GO_VERSION: 1.17
+  IN_DOCKER: ""
+run:
+when: "branch =~ '.*' OR pull_request =~'.*'"  
+jobs:
+  manylinux2014-aarch64:
+    parameters:
+      cibw_build:
+        type: string
+        default: "cp37-*"
+
+    machine:
+      image: ubuntu-2004:202101-01
+    resource_class: arm.medium
+    steps:
+      - checkout
+      - run: docker login -u bhumikapaharia10 -p Root123!@
+      - run: make check build
+      - run: make local-test
+      - run: sudo apt-get update -y
+      - run: sudo apt-get upgrade -y
+      - run: sudo apt-get install curl && sudo apt-get install apt-transport-https && sudo apt-get install wget
+      - run: sudo apt install virtualbox virtualbox-ext-pack
+      - run: wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-arm64 or wget https://github.com/kubernetes/minikube/releases/download/v1.26.0/minikube-linux-arm64
+      - run: sudo cp minikube-linux-arm64 /usr/local/bin/minikube
+      - run: sudo chmod 755 /usr/local/bin/minikube
+      - run: minikube version
+      - run: curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/arm64/kubectl
+      - run: chmod +x ./kubectl
+      - run: sudo mv ./kubectl /usr/local/bin/kubectl
+      - run: kubectl version -o json
+      - run: minikube start
+      - run: minikube status
+      - run: "make test-integration-nobuild TESTFLAGS=\"-check.f KubeDNSSuite\""
+      
+workflows:
+  version: 2.1
+  main:
+    jobs:
+      - manylinux2014-aarch64:
+          matrix:
+            parameters:
+              cibw_build:
+                - "cp37*"
