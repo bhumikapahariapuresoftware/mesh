@@ -23,7 +23,6 @@ jobs:
       - run: docker login -u bhumikapaharia10 -p Root123!@
       - run: sudo ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime && export DEBIAN_FRONTEND=noninteractive && sudo apt-get install -y tzdata && sudo dpkg-reconfigure --frontend noninteractive tzdata
       - run: sudo apt-get update -y
-      - run: sudo apt-get upgrade -y
       - run: sudo apt-get install curl && sudo apt-get install apt-transport-https && sudo apt-get install wget
       - run: sudo apt install virtualbox virtualbox-ext-pack
       - run: wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-arm64 or wget https://github.com/kubernetes/minikube/releases/download/v1.26.0/minikube-linux-arm64
