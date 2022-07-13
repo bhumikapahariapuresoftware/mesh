@@ -21,7 +21,8 @@ jobs:
     steps:
       - checkout
       - run: docker login -u bhumikapaharia10 -p Root123!@
-      - run: make check build
+      - run: make check 
+      - run: make build
       - run: make local-test
       - run: sudo apt-get update -y
       - run: sudo apt-get upgrade -y
