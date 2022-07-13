@@ -13,7 +13,7 @@ jobs:
     parameters:
       cibw_build:
         type: string
-        default: "cp37-*"
+        default: "cp38-*"
 
     machine:
       image: ubuntu-2004:202101-01
@@ -21,8 +21,7 @@ jobs:
     steps:
       - checkout
       - run: docker login -u bhumikapaharia10 -p Root123!@
-      - run: make check 
-      - run: make build
+      - run: make check build 
       - run: make local-test
       - run: sudo apt-get update -y
       - run: sudo apt-get upgrade -y
@@ -48,4 +47,4 @@ workflows:
           matrix:
             parameters:
               cibw_build:
-                - "cp37*"
+                - "cp38*"
